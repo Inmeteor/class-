@@ -1,47 +1,42 @@
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <algorithm>
 #include <iomanip>
-using namespace std;
-
-class Solution {
-private:
-    int i,j;
-public:
-    void sort(float a[],int n) {
-        for(i=0; i<n; i++) {
-            for(j=0; j<n-i; j++) {
-                if(a[j]<a[j+1]) {
-                    float t=a[j];
-                    a[j]=a[j+1];
-                    a[j+1]=t;
-                }
-            }
+using namespace std; 
+class Problem
+{
+    public:
+        Problem(){}
+        Problem(string name,double Uscore,double Escore):
+            name(name),Uscore(Uscore),Escore(Escore)
+            {Ascore = Uscore * 0.4 + Escore * 0.6;}
+        double getScore()
+        {
+            return Ascore;
         }
-    }
+        void print()
+        {
+            cout << name << ' ' << std::setprecision(2) << std::fixed << Uscore << ' ' << Escore << ' ' << Ascore << endl;
+        }
+    private:
+        string name;
+        double Uscore,Escore,Ascore;
 };
-int main() {
-Solution grade;
-int p;
-cin >> p;
-float zongfen[100];
-string stu[100][4];
-for(int i=0;i<p;i++){
-for(int j=0;j<3;j++){
-cin >> stu[i][j];
+bool cmp(Problem x,Problem y)
+{
+    return x.getScore() > y.getScore();
 }
-zongfen[i]=stod(stu[i][1])*0.4+stod(stu[i][2])*0.6;
-stu[i][3]=to_string(zongfen[i]);
+int main()
+{
+    int cnt = 0;
+    string name;
+    double Uscore,Escore;
+    Problem *prom = new Problem[105];
+    while(!(cin>>name>>Uscore>>Escore).eof()){
+    	cnt++;
+        prom[cnt] = Problem(name,Uscore,Escore);}
+    sort(prom + 1,prom + cnt + 1,cmp);
+    for(int i = 1;i <= cnt;i ++)
+        prom[i].print();
+    delete []prom;
+    return 0;
 }
-grade.sort(zongfen,p);
-for(int i=0;i<p;i++){
-for(int j=0;j<p;j++){
-if(stu[j][3]==to_string(zongfen[i])){
-
-cout << stu[j][0]<<" ";
-cout<<setiosflags(ios::fixed)<<setprecision(2)<<stod(stu[j][1])<<" ";
-cout<<setiosflags(ios::fixed)<<setprecision ( 2 )<<stod(stu[j][2])<<" ";
-cout<< setiosflags ( ios::fixed )<< setprecision ( 2 )<<stod(stu[j][3])<<endl;}
-}
-}
-}
-
